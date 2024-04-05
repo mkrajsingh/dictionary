@@ -1,54 +1,47 @@
-import React, { useState } from 'react';
+import { useState } from "react";
 import "./styles.css"
-
-const dictionaryData = [
-  { word: "React", meaning: "A JavaScript library for building user interfaces." },
+const dictionary = [
+  {
+    word: "React",
+    meaning: "A JavaScript library for building user interfaces.",
+  },
   { word: "Component", meaning: "A reusable building block in React." },
   { word: "State", meaning: "An object that stores data for a component." },
-  { word: "raj", meaning: "mithilesh kumar." },
 ];
 
-const XDictionary = () => {
-  const [searchTerm, setSearchTerm] = useState('');
-  const [searchResult, setSearchResult] = useState('');
+function App() {
+  const [search, setSearch] = useState("");
+  const [result, setResult] = useState("");
 
   const handleSearch = () => {
-    const lowercaseTerm = searchTerm.toLowerCase();
-    const foundWord = dictionaryData.find(item => item.word.toLowerCase() === lowercaseTerm);
+    const word = search.trim().toLowerCase();
+    const foundWord = dictionary.find(
+      (item) => item.word.toLowerCase() === word
+    );
 
     if (foundWord) {
-      setSearchResult(`Defination: \n${foundWord.meaning}`); // Format as per requirement
+      setResult(foundWord.meaning);
     } else {
-      setSearchResult("Word not found in the dictionary.");
-    }
-  };
-
-  const handleKeyPress = (event) => {
-    if (event.key === 'Enter') {
-      handleSearch();
+      setResult("Word not found in the dictionary.");
     }
   };
 
   return (
-    <div className="container">
-      <input
-        type="text"
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
-        onKeyDown={handleKeyPress} // Handle Enter key press
-        placeholder="Enter search term"
-        className="input-field" // Apply custom class
-      />
-      <button onClick={handleSearch} className="button">Search</button>
-      {searchResult && (
-        <div className="result">
-          {searchResult.split('\n').map((line, index) => (
-            <div key={index}>{line}</div>
-          ))}
-        </div>
-      )}
-    </div>
+    <>
+      <h1>Dictionary App</h1>
+      <div>
+        <input
+          type="text"
+          placeholder="Search for a word..."
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+        />
+        <button onClick={handleSearch}>Search</button>
+      </div>
+      <strong>Definition:</strong>
+      {result && <p>{result}</p>}
+    </>
   );
-};
+}
 
-export default XDictionary;
+export default App;
